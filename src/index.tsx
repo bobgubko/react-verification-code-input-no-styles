@@ -44,8 +44,9 @@ const ReactInputVerificationCode = ({
       new Array(length).fill(null).map(() => React.createRef<HTMLDivElement>()),
     [length]
   );
+  const regexString =     inputMode === 'text' ? `^[A-Za-z0-9_.]{${length}}$` : `^[0-9]{${length}}$`;
 
-  const isCodeRegex = new RegExp(`^[0-9]{${length}}$`);
+  const isCodeRegex = new RegExp(regexString);
 
   const getItem = (index: number) => itemsRef[index]?.current;
   const focusItem = (index: number): void => getItem(index)?.focus();
