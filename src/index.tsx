@@ -7,7 +7,6 @@ const KEY_CODE = {
   ARROW_RIGHT: 39,
   DELETE: 46,
 };
-// test
 export interface ReactInputVerificationCodeProps {
   autoFocus?: boolean;
   length?: number;
