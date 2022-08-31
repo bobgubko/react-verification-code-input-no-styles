@@ -82,13 +82,6 @@ const ReactInputVerificationCode = ({
     // keep items focus in sync
     onItemFocus(activeIndex);
 
-    if (
-      keyCode === KEY_CODE.CTRL ||
-      keyCode === KEY_CODE.ALT ||
-      keyCode === KEY_CODE.COMMAND ||
-      keyCode === KEY_CODE.SHIFT
-    )
-      return;
     if (isDeleting) {
       // on delete, replace the current value
       // and focus on the previous item
