@@ -197,6 +197,11 @@ const ReactInputVerificationCode = ({
         onChange={onInputChange}
         onKeyUp={onInputKeyUp}
         onBlur={onInputBlur}
+        style={{
+          position: 'absolute',
+          top: '-999px',
+          opacity: 0,
+        }}
       />
 
       {itemsRef.map((ref, i) => (
