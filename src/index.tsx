@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as S from './styles';
 
 const KEY_CODE = {
   BACKSPACE: 8,
@@ -18,6 +17,9 @@ export interface ReactInputVerificationCodeProps {
   type?: 'text' | 'password';
   passwordMask?: string;
   inputMode?: 'text' | 'numeric';
+  inputClassNames?: string;
+  inputFilledClassName: string;
+  inputActiveClassName: string;
 }
 
 const ReactInputVerificationCode = ({
@@ -31,6 +33,9 @@ const ReactInputVerificationCode = ({
   type = 'text',
   passwordMask = '•',
   inputMode = 'numeric',
+  inputClassNames = '',
+  inputFilledClassName = '',
+  inputActiveClassName = '',
 }: ReactInputVerificationCodeProps) => {
   const emptyValue = new Array(length).fill(placeholder);
   const [activeIndex, setActiveIndex] = React.useState<number>(-1);
@@ -44,7 +49,8 @@ const ReactInputVerificationCode = ({
       new Array(length).fill(null).map(() => React.createRef<HTMLDivElement>()),
     [length]
   );
-  const regexString =     inputMode === 'text' ? `^[A-Za-z0-9_.]{${length}}$` : `^[0-9]{${length}}$`;
+  const regexString =
+    inputMode === 'text' ? `^[A-Za-z0-9_.]{${length}}$` : `^[0-9]{${length}}$`;
 
   const isCodeRegex = new RegExp(regexString);
 
@@ -179,47 +185,37 @@ const ReactInputVerificationCode = ({
 
   return (
     <React.Fragment>
-      <S.GlobalStyle />
+      <input
+        type='text'
+        ref={codeInputRef}
+        autoComplete='one-time-code'
+        inputMode={inputMode}
+        id='one-time-code'
+        // use onKeyUp rather than onChange for a better control
+        // onChange is still needed to handle the autocompletion
+        // when receiving a code by SMS
+        onChange={onInputChange}
+        onKeyUp={onInputKeyUp}
+        onBlur={onInputBlur}
+      />
 
-      <S.Container
-        className='ReactInputVerificationCode__container'
-        // needed for styling
-        itemsCount={length}
-      >
-        <S.Input
-          ref={codeInputRef}
-          className='ReactInputVerificationCode__input'
-          autoComplete='one-time-code'
-          type='text'
-          inputMode={inputMode}
-          id='one-time-code'
-          // use onKeyUp rather than onChange for a better control
-          // onChange is still needed to handle the autocompletion
-          // when receiving a code by SMS
-          onChange={onInputChange}
-          onKeyUp={onInputKeyUp}
-          onBlur={onInputBlur}
-          // needed for styling
-          activeIndex={activeIndex}
-          data-cy={`${dataCy}-otc-input`}
-        />
-
-        {itemsRef.map((ref, i) => (
-          <S.Item
-            key={i}
-            ref={ref}
-            role='button'
-            tabIndex={0}
-            className={`ReactInputVerificationCode__item ${
-              value[i] !== placeholder ? 'is-filled' : ''
-            } ${i === activeIndex ? 'is-active' : ''}`}
-            onFocus={onItemFocus(i)}
-            data-cy={`${dataCy}-${i}-item`}
-          >
-            {renderItemText(value[i])}
-          </S.Item>
-        ))}
-      </S.Container>
+      {itemsRef.map((ref, i) => (
+        <div
+          className={`${inputClassNames} ${
+            value[i] !== placeholder
+              ? inputFilledClassName
+              : inputActiveClassName
+          }`}
+          key={i}
+          ref={ref}
+          role='button'
+          tabIndex={0}
+          onFocus={onItemFocus(i)}
+          data-cy={`${dataCy}-${i}-item`}
+        >
+          {renderItemText(value[i])}
+        </div>
+      ))}
     </React.Fragment>
   );
 };

@@ -1,10 +1,10 @@
 {
-  "name": "react-input-verification-code",
-  "version": "1.0.2",
+  "name": "react-input-verification-code-no-styles",
+  "version": "1.0.3",
   "description": "A verification code input, autocompletion friendly",
   "author": "ugogo",
   "license": "MIT",
-  "repository": "ugogo/react-input-verification-code",
+  "repository": "bobgubko/react-input-verification-code-no-styles",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
